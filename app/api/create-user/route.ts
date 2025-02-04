@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     //   }
 
     if (email.includes("secy"))
-        role = "Hostel"
+        role = "Hall"
     else if (email.includes("biswajit"))
         role = "Gsec"
 

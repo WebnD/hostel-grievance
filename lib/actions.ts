@@ -94,6 +94,16 @@ export async function checkExistence(email: string){
       redirect('/');
     }
 
+
+    const response = await database.getDocument(
+      process.env.DATABASE_ID!,
+      process.env.USERS_COLLECTION_ID!,
+      user.id
+    )
+
+    const hostel = response.hostel;
+
+
     await database.createDocument(
         process.env.DATABASE_ID!,
     process.env.COMPLAINTS_COLLECTION_ID!,
@@ -103,7 +113,8 @@ export async function checkExistence(email: string){
         category: formdata.category,
         type: formdata.type,
         image: formdata.image,
-        explaination: formdata.description
+        explaination: formdata.description,
+        hostel: hostel
     }
 
     )
