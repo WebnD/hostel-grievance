@@ -51,7 +51,7 @@ export default function Complain() {
       }); 
     setIsDialogOpen(false)
     // Redirect to my-complaints page
-    // router.push("/track")
+    router.push("/track")
   }
 
   return (
