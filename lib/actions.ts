@@ -102,6 +102,11 @@ export async function checkExistence(email: string){
     )
 
     const hostel = response.hostel;
+    const studentName = response.name;
+    const rollNumber = response.rollNumber;
+    const wing = response.wing;
+    const room = response.room;
+    const roomNumber = wing + " / " + room;
 
 
     await database.createDocument(
@@ -114,7 +119,10 @@ export async function checkExistence(email: string){
         type: formdata.type,
         image: formdata.image,
         explaination: formdata.description,
-        hostel: hostel
+        hostel: hostel,
+        studentName,
+        rollNumber,
+        roomNumber
     }
 
     )
@@ -141,4 +149,51 @@ export async function checkExistence(email: string){
       console.error("Failed to fetch complaints : ", error);
       throw new Error ("Failed to fetch complaints")
     }
+  }
+
+
+  export async function ResolvebyHostel(data: string){
+    await database.updateDocument(
+      process.env.DATABASE_ID!,
+      process.env.COMPLAINTS_COLLECTION_ID!,
+      data,
+      {
+        status: "Solved-by-Hostel"
+      }
+    )
+  }
+
+  
+  export async function UnResolvebyHostel(data: string){
+    await database.updateDocument(
+      process.env.DATABASE_ID!,
+      process.env.COMPLAINTS_COLLECTION_ID!,
+      data,
+      {
+        status: "Pending"
+      }
+    )
+  }
+
+  export async function ResolvebyStudent(data: string){
+    await database.updateDocument(
+      process.env.DATABASE_ID!,
+      process.env.COMPLAINTS_COLLECTION_ID!,
+      data,
+      {
+        status: "Resolved"
+      }
+    )
+  }
+
+  export async function QueryRaised(data : {complaintId: string, queryText: string}){
+    await database.updateDocument(
+      process.env.DATABASE_ID!,
+      process.env.COMPLAINTS_COLLECTION_ID!,
+      data.complaintId,
+      {
+        status: "Not-Resolved",
+        query:data.queryText
+      }
+    )
   }

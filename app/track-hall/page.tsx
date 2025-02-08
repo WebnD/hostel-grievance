@@ -4,7 +4,6 @@ import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { useSession } from "next-auth/react"
-import { ComplaintCard } from "@/components/Complaint Card"
 
 // Sample data for complaints
 
@@ -42,19 +41,34 @@ export default function MyComplaints() {
     <div className="min-h-screen bg-[#FFFFFF] mt-20">
       <main className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-[#192438] mb-6">My Complaints</h1>
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2 nlg:grid-cols-3">
           {complaints.map((complaint) => (
-            <ComplaintCard
-              key={complaint.$id}
-              category={complaint.category}
-              type={complaint.type}
-              description={complaint.explaination}
-              status={complaint.status}
-              studentName={complaint.studentName}
-              rollNumber={complaint.rollNumber}
-              roomNumber={complaint.roomNumber}
-              complaintId={complaint.$id}
-            />
+            <Card key={complaint.$id} className="bg-[#FFFFFF] border-[#192438]">
+              <CardHeader>
+                <CardTitle className="text-[#192438]">{complaint.category}</CardTitle>
+                <CardDescription className="text-[#192438]">{complaint.type}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-[#192438] mb-2">{complaint.explaination}</p>
+                <div className="flex justify-between items-center">
+                  <Badge
+                    variant={complaint.status === "Resolved" ? "default" : "secondary"}
+                    className={`${
+                      complaint.status === "pending"
+                        ? "bg-yellow-500"
+                        : complaint.status === "In Progress"
+                          ? "bg-[#0093DD]"
+                          : "bg-green-500"
+                    } text-white`}
+                  >
+                    {complaint.status}
+                  </Badge>
+                </div>
+                <p className="text-sm text-[#192438] mt-2">
+                  Submitted on: {new Date(complaint.$createdAt).toLocaleDateString()}
+                </p>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </main>

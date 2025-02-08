@@ -21,6 +21,10 @@ interface fetchedComplaint{
     requesterId: string;
     status: string;
     type: string;
+    studentName:string;
+    rollNumber: string;
+    roomNumber: string;
+    query?: string;
 }
 $collectionId
 : 

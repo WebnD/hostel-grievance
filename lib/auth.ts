@@ -51,6 +51,14 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       session.user.id = token.id as string;
+      let role = "Student";
+      const email = session.user.email;
+      if (email?.includes("secy"))
+        role = "Hall"
+    else if (email?.includes("biswajit"))
+        role = "Gsec"
+
+    session.user.role=role;
       return session;
     },
   },
